@@ -155,7 +155,7 @@ jobs:
         run: |
           git config user.name "orz12"
           git config user.email "orz12@test.com"
-          curl https://gist.githubusercontent.com/VillagerTom/077315c7101182af8bf443bb506007d0/raw/6c2c735a761f5e819672680bbefe473b748aa211/flutter-3.24.4-fix.diff | git apply
+          curl -fsSL https://gist.githubusercontent.com/VillagerTom/077315c7101182af8bf443bb506007d0/raw/6c2c735a761f5e819672680bbefe473b748aa211/flutter-3.24.4-fix.diff | git apply
           git commit -am "fix font weight issue"
           # Flutter precache
           flutter --version
