@@ -16,7 +16,7 @@ jobs:
     runs-on: ${{ matrix.build_os }}
     strategy:
       matrix:
-        target_platform: [android-split-per-abi, android-universal, iOS]
+        target_platform: [android-split-per-abi, android-universal]
         include:
           - build_os: ubuntu-latest
           - target_platform: iOS
@@ -53,7 +53,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '21'
-          token: ${{ secrets.GIT_TOKEN }}
+          #token: ${{ secrets.GIT_TOKEN }}
 
       - name: 安装Flutter
         uses: subosito/flutter-action@v2
@@ -74,27 +74,27 @@ jobs:
       - name: 下载依赖
         run: flutter pub get
 
-      - name: 解码生成 jks
-        if: startsWith(matrix.target_platform, 'android')
-        run: echo $KEYSTORE_BASE64 | base64 -di > android/app/vvex.jks
-        env:
-          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+      #- name: 解码生成 jks
+      #  if: startsWith(matrix.target_platform, 'android')
+      #  run: echo $KEYSTORE_BASE64 | base64 -di > android/app/vvex.jks
+        #env:
+        #  KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
 
       - name: flutter build apk (universal)
         if: matrix.target_platform == 'android-universal'
         run: flutter build apk --release
-        env:
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        #env:
+        #  KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        #  KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        #  KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
       - name: flutter build apk (split-per-abi)
         if: matrix.target_platform == 'android-split-per-abi'
         run: flutter build apk --release --split-per-abi
-        env:
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+       # env:
+       #   KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+       #   KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+       #   KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
       - name: flutter build ios
         if: matrix.target_platform == 'iOS'
@@ -147,10 +147,10 @@ jobs:
         uses: actions/download-artifact@v4
 
       - name: 上传至GitHub Release
-        uses: ncipollo/release-action@v1
+        uses: softprops/action-gh-release@v2.3.2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: PiliPalaX-*/*
+          #token: ${{ secrets.GITHUB_TOKEN }}
+          files: PiliPalaX-*/*
           prerelease: ${{ contains(needs.build_matrix.outputs.new_version, 'beta') }}
           tag: ${{ needs.build_matrix.outputs.new_version }}
-          allowUpdates: true
+          #allowUpdates: true
