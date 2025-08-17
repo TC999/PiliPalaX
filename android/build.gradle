@@ -16,10 +16,18 @@ rootProject.buildDir = '../build'
 subprojects {
     afterEvaluate { project ->
         if (project.hasProperty('android')) {
-            // Set minimum compileSdk for all Android projects
-            if (project.android.hasProperty('compileSdk')) {
-                if (project.android.compileSdk != null && project.android.compileSdk < 34) {
-                    project.android.compileSdk 34
+            project.android {
+                // Set minimum compileSdk for all Android projects
+                if (compileSdk == null || compileSdk < 34) {
+                    compileSdk 34
+                }
+                
+                // Ensure default values for common properties
+                if (!hasProperty('namespace') || namespace == null) {
+                    // Set a default namespace if none exists
+                    if (project.name != 'app') {
+                        namespace = "com.orz12.PiliPalaX.${project.name}"
+                    }
                 }
             }
         }
