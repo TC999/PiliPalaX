@@ -12,6 +12,11 @@ allprojects {
     }
 }
 
+android {
+    compileSdkVersion 31 // 可根据你主项目实际需要调整
+    // ... 其他配置
+}
+
 rootProject.buildDir = '../build'
 subprojects {
     afterEvaluate { project ->
@@ -93,10 +98,6 @@ subprojects {
 }
 subprojects {
     project.evaluationDependsOn(':app')
-    project.android {
-    compileSdkVersion 31 // 可根据你主项目实际需要调整
-    // ... 其他配置
-}
 }
 
 tasks.register("clean", Delete) {
