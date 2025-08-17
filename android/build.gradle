@@ -4,17 +4,12 @@ allprojects {
         maven { url "https://maven.aliyun.com/repository/central" }
         maven { url "https://maven.aliyun.com/repository/jcenter" }
         maven { url "https://maven.aliyun.com/repository/public" }
-        maven { url "http://download.flutter.io"
+        maven { url "https://download.flutter.io"
             allowInsecureProtocol = true
         }
         google()
         mavenCentral()
     }
-}
-
-android {
-    compileSdkVersion 31 // 可根据你主项目实际需要调整
-    // ... 其他配置
 }
 
 rootProject.buildDir = '../build'
